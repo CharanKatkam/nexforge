@@ -65,3 +65,11 @@ if settings.DEBUG:
         path("404/", page_not_found, {"exception": Exception("Page not found")}),
         path("500/", server_error),
     ]
+    # django-debug-toolbar (enabled in dev settings) needs its own URLs,
+    # otherwise its template reverses the unregistered 'djdt' namespace.
+    try:
+        import debug_toolbar
+
+        urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
+    except ImportError:
+        pass

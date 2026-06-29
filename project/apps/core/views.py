@@ -248,7 +248,7 @@ def gallery(request):
     items = GalleryItem.objects.all().order_by("category", "order")
     items_by_cat = defaultdict(list)
     for item in items:
-        items_by_cat[item.get_category_display()].append(item)
+        items_by_cat[item.category or "Uncategorized"].append(item)
     return render(request, "content/gallery.html", {"items_by_cat": dict(items_by_cat)})
 
 
