@@ -5,8 +5,28 @@
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   document.addEventListener("DOMContentLoaded", function () {
+    document.body.classList.add("is-loaded");
+
+    // --- Auto-tag reveal targets across every page (no template edits) -----
+    // Cards, process steps, list-group rows, and accordion items animate in.
+    var autoSel = "main section .card, main section .process-step," +
+                  " main section .list-group-item, main section .accordion-item," +
+                  " main section blockquote";
+    document.querySelectorAll(autoSel).forEach(function (el) {
+      if (!el.classList.contains("animate-on-scroll")) {
+        el.classList.add("animate-on-scroll");
+        // stagger by position within the parent row/list
+        var sibs = Array.prototype.slice.call(el.parentNode.children);
+        el.style.setProperty("--d", Math.min(sibs.indexOf(el), 6));
+      }
+    });
+    // Animated underline accent on centered section headings.
+    document.querySelectorAll("main section .text-center > h2").forEach(function (h) {
+      h.classList.add("heading-accent");
+    });
+
     // --- Scroll-reveal -----------------------------------------------------
-    var revealEls = document.querySelectorAll(".animate-on-scroll");
+    var revealEls = document.querySelectorAll(".animate-on-scroll, .heading-accent");
     if (reduce) {
       revealEls.forEach(function (el) { el.classList.add("visible"); });
     } else if ("IntersectionObserver" in window) {

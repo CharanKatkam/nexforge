@@ -51,3 +51,4 @@ Thumbs.db
 .playwright-mcp/
 project/.playwright-mcp/
 /project/*.jpeg
+.gstack/

@@ -163,6 +163,40 @@ section { position: relative; }
   background: rgba(245,124,0,.16); color: var(--orange-light);
   border: 1px solid rgba(245,124,0,.32);
 }
+.hero-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange);
+  box-shadow: 0 0 0 0 rgba(245,124,0,.7); animation: pulseDot 2s infinite; }
+@keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(245,124,0,.6); } 70% { box-shadow: 0 0 0 9px rgba(245,124,0,0); } 100% { box-shadow: 0 0 0 0 rgba(245,124,0,0); } }
+
+/* gradient accent word in the headline */
+.hero-grad { background: linear-gradient(100deg, var(--orange-light), var(--cyan));
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.min-vh-75 { min-height: 78vh; }
+
+/* animated circuit grid + sweeping scan behind the hero */
+.hero-grid { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,188,212,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,188,212,.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(130% 100% at 75% 15%, #000 35%, transparent 80%);
+  animation: gridDrift 22s linear infinite; }
+@keyframes gridDrift { from { background-position: 0 0, 0 0; } to { background-position: 40px 40px, 40px 40px; } }
+.hero-scan { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.hero-scan::before { content: ""; position: absolute; top: -50%; left: -60%; width: 50%; height: 200%;
+  background: linear-gradient(100deg, transparent, rgba(0,188,212,.10), transparent);
+  transform: skewX(-18deg); animation: heroScan 7s ease-in-out infinite; }
+@keyframes heroScan { 0% { left: -60%; } 55%,100% { left: 130%; } }
+
+/* hero network SVG animations */
+.hero-network .hn-orbit { animation: spinSlow 40s linear infinite; }
+.hero-network .hn-gear { animation: spinSlow 18s linear infinite reverse; }
+.hero-network .hn-node { animation: floatY 5s ease-in-out infinite; }
+.hero-network .hn-node:nth-child(2) { animation-delay: .4s; }
+.hero-network .hn-node:nth-child(3) { animation-delay: .8s; }
+.hero-network .hn-node:nth-child(4) { animation-delay: 1.2s; }
+.hero-network .hn-node:nth-child(5) { animation-delay: 1.6s; }
+.hero-network .hn-node:nth-child(6) { animation-delay: 2s; }
 
 /* ---------- Stats ---------- */
 .stat-counter { font-size: clamp(2rem, 1.4rem + 1.6vw, 2.8rem); font-weight: 700;
@@ -304,11 +338,94 @@ section { position: relative; }
 .animate-on-scroll { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
 
+/* =====================================================================
+   MOTION LAYER  — bold but tasteful, all gated on prefers-reduced-motion
+   ===================================================================== */
+@keyframes heroUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+@keyframes auraDrift { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(4%, 3%) scale(1.08); } }
+@keyframes shimmer { to { background-position: 200% center; } }
+
+/* Hero entrance — staggered, plays once on load */
+.hero-section .hero-badge { animation: heroUp .7s var(--ease) both; }
+.hero-section h1 { animation: heroUp .75s .12s var(--ease) both; }
+.hero-section .lead, .hero-section > .container p { animation: heroUp .75s .24s var(--ease) both; }
+.hero-section .d-flex { animation: heroUp .75s .36s var(--ease) both; }
+/* Hero asset (the SVG orb) gently floats + a soft rotating aura behind it */
+.hero-section svg { animation: floatY 6s ease-in-out infinite; }
+.hero-section::after {
+  content: ""; position: absolute; top: 50%; right: 6%; width: 360px; height: 360px;
+  transform: translateY(-50%); border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(circle, rgba(245,124,0,.22), transparent 62%);
+  filter: blur(8px); animation: auraDrift 9s ease-in-out infinite;
+}
+@media (max-width: 991px) { .hero-section::after { display: none; } }
+
+/* Button shine sweep on hover */
+.btn-brand, .btn-cyan { position: relative; overflow: hidden; }
+.btn-brand::after, .btn-cyan::after {
+  content: ""; position: absolute; top: 0; left: -120%; width: 70%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent);
+  transform: skewX(-18deg); transition: left .6s var(--ease);
+}
+.btn-brand:hover::after, .btn-cyan:hover::after { left: 130%; }
+
+/* Card hover: lift already set; add an orange glow ring for clear feedback */
+.industry-card:hover, .project-card:hover, .hover-lift:hover {
+  box-shadow: var(--shadow-lg), 0 0 0 2px rgba(245,124,0,.28) inset;
+}
+/* Tech-partner / logo tiles: subtle pop on hover */
+.bg-gray .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-sm); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+
+/* Stat counters pop slightly when revealed */
+.stat-counter { transition: transform .3s var(--ease); }
+
+/* Animated gradient underline accent under section headings (auto, see ui.js) */
+.heading-accent { position: relative; display: inline-block; }
+.heading-accent::after {
+  content: ""; position: absolute; left: 50%; bottom: -.5rem; width: 0; height: 3px;
+  border-radius: 3px; transform: translateX(-50%);
+  background: linear-gradient(90deg, var(--orange), var(--cyan));
+  transition: width .6s var(--ease) .15s;
+}
+.heading-accent.visible::after { width: 64px; }
+
+/* Reveal stagger (delay set inline by ui.js via --d) */
+.animate-on-scroll { transition-delay: calc(var(--d, 0) * 80ms); }
+
+/* ---------- Technology-partner marquee ---------- */
+@keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee { overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.marquee__track { display: flex; width: max-content; gap: 1.25rem; animation: marqueeScroll 26s linear infinite; }
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee__item {
+  font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.2rem;
+  color: var(--blue); white-space: nowrap; transition: all .25s var(--ease);
+  display: inline-flex; align-items: center; padding: .65rem 1.5rem;
+  background: #fff; border: 1px solid var(--gray-200); border-radius: 50px;
+  box-shadow: var(--shadow-sm);
+}
+.marquee__item:hover { color: var(--orange); border-color: var(--orange); transform: translateY(-3px); }
+
+/* ---------- A few more enterprise micro-interactions ---------- */
+/* Section CTA gradient panels get a slow living gradient */
+.cta-section { background-size: 200% 200%; animation: auraDrift 14s ease-in-out infinite; }
+/* Links in body content get an animated underline */
+main a:not(.btn):not(.nav-link):not(.navbar-brand):not(.card *) {
+  background-image: linear-gradient(var(--orange), var(--orange));
+  background-size: 0% 2px; background-position: 0 100%; background-repeat: no-repeat;
+  transition: background-size .3s var(--ease); text-decoration: none;
+}
+main a:not(.btn):not(.nav-link):not(.navbar-brand):not(.card *):hover { background-size: 100% 2px; }
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-  * { scroll-behavior: auto !important; }
+  * { scroll-behavior: auto !important; animation: none !important; }
   .animate-on-scroll { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .heading-accent::after { transition: none !important; width: 64px !important; }
   .btn, .industry-card, .project-card, .hover-lift, .floating-contact, .back-to-top,
-  .project-card .card-img-top { transition: none !important; }
+  .project-card .card-img-top, .bg-gray .card { transition: none !important; }
   .btn:hover, .industry-card:hover, .project-card:hover, .hover-lift:hover { transform: none !important; }
+  .hero-section::after, .hero-section svg { animation: none !important; }
 }

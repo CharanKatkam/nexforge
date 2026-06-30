@@ -3,12 +3,18 @@
 {% block content %}
 
 <!-- Hero Banner -->
-<section class="hero-section text-white py-5">
-  <div class="container py-5">
-    <div class="row align-items-center">
+<section class="hero-section text-white">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-scan" aria-hidden="true"></div>
+  <div class="container position-relative" style="z-index:2">
+    <div class="row align-items-center min-vh-75 py-5">
       <div class="col-lg-7">
-        <span class="hero-badge mb-3 d-inline-block">Industry 4.0 Solutions</span>
-        <h1 class="display-4 fw-bold mb-3">Building Intelligent Factories for the Future</h1>
+        <span class="hero-badge mb-3 d-inline-flex align-items-center gap-2">
+          <span class="hero-badge-dot"></span> Industry 4.0 Solutions
+        </span>
+        <h1 class="display-4 fw-bold mb-3">
+          Building <span class="hero-grad">Intelligent Factories</span> for the Future
+        </h1>
         <p class="lead text-white-50 mb-4" style="max-width:600px">
           Transform your manufacturing operations through Industrial IoT, Robotics, PLC Programming,
           AI Analytics, and Smart Factory Solutions designed for Industry 4.0.
@@ -20,17 +26,66 @@
           <a href="{% url 'contact' %}" class="btn btn-outline-cyan btn-lg">Book Factory Visit</a>
         </div>
       </div>
-      <div class="col-lg-5 d-none d-lg-block text-center">
-        <svg width="320" height="320" viewBox="0 0 320 320" fill="none">
-          <circle cx="160" cy="160" r="150" stroke="rgba(245,124,0,0.2)" stroke-width="2" fill="none"/>
-          <circle cx="160" cy="160" r="100" stroke="rgba(0,188,212,0.2)" stroke-width="2" fill="none"/>
-          <path d="M160 60 L160 100 M160 220 L160 260 M60 160 L100 160 M220 160 L260 160" stroke="rgba(245,124,0,0.4)" stroke-width="3"/>
-          <circle cx="160" cy="160" r="40" fill="rgba(255,255,255,0.05)" stroke="rgba(0,188,212,0.3)" stroke-width="2"/>
-          <text x="160" y="165" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Poppins, sans-serif" font-size="12" font-weight="600">AI</text>
-          <rect x="50" y="50" width="20" height="20" rx="4" stroke="rgba(245,124,0,0.5)" stroke-width="1.5" fill="none"/>
-          <rect x="250" y="50" width="20" height="20" rx="4" stroke="rgba(0,188,212,0.5)" stroke-width="1.5" fill="none"/>
-          <rect x="50" y="250" width="20" height="20" rx="4" stroke="rgba(0,188,212,0.5)" stroke-width="1.5" fill="none"/>
-          <rect x="250" y="250" width="20" height="20" rx="4" stroke="rgba(245,124,0,0.5)" stroke-width="1.5" fill="none"/>
+      <div class="col-lg-5 d-none d-lg-flex justify-content-center">
+        <!-- Live "smart factory network": AI core wired to automation nodes,
+             data packets travel the links. SVG + SMIL + CSS, no JS. -->
+        <svg class="hero-network" viewBox="0 0 420 420" width="100%" style="max-width:440px" role="img"
+             aria-label="Smart factory automation network: AI core connected to PLC, IIoT, SCADA, Robotics, Vision and Cloud">
+          <defs>
+            <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#F57C00" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#F57C00" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="linkGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#00BCD4" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#00BCD4" stop-opacity="0.55"/>
+            </linearGradient>
+          </defs>
+
+          <!-- rotating orbit rings -->
+          <g class="hn-orbit" style="transform-origin:210px 210px">
+            <circle cx="210" cy="210" r="170" fill="none" stroke="rgba(0,188,212,.18)" stroke-width="1" stroke-dasharray="4 8"/>
+            <circle cx="210" cy="210" r="130" fill="none" stroke="rgba(245,124,0,.16)" stroke-width="1" stroke-dasharray="2 10"/>
+          </g>
+
+          <!-- connection links (center 210,210 → each node) -->
+          <g stroke="url(#linkGrad)" stroke-width="2" fill="none">
+            <path id="lk0" d="M210 210 L210 70"/>
+            <path id="lk1" d="M210 210 L331 140"/>
+            <path id="lk2" d="M210 210 L331 280"/>
+            <path id="lk3" d="M210 210 L210 350"/>
+            <path id="lk4" d="M210 210 L89 280"/>
+            <path id="lk5" d="M210 210 L89 140"/>
+          </g>
+
+          <!-- traveling data packets (SMIL animateMotion) -->
+          <g fill="#00BCD4">
+            <circle r="3.5"><animateMotion dur="2.2s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#lk0"/></animateMotion></circle>
+            <circle r="3.5" fill="#F57C00"><animateMotion dur="2.6s" begin="0.3s" repeatCount="indefinite"><mpath href="#lk1"/></animateMotion></circle>
+            <circle r="3.5"><animateMotion dur="2.4s" begin="0.6s" repeatCount="indefinite"><mpath href="#lk2"/></animateMotion></circle>
+            <circle r="3.5" fill="#F57C00"><animateMotion dur="2.8s" begin="0.2s" repeatCount="indefinite"><mpath href="#lk3"/></animateMotion></circle>
+            <circle r="3.5"><animateMotion dur="2.5s" begin="0.5s" repeatCount="indefinite"><mpath href="#lk4"/></animateMotion></circle>
+            <circle r="3.5" fill="#F57C00"><animateMotion dur="2.3s" begin="0.9s" repeatCount="indefinite"><mpath href="#lk5"/></animateMotion></circle>
+          </g>
+
+          <!-- outer nodes -->
+          <g class="hn-nodes" font-family="Poppins, sans-serif" font-size="11" font-weight="600" text-anchor="middle">
+            <g class="hn-node"><circle cx="210" cy="70"  r="30" fill="rgba(11,46,89,.85)" stroke="#00BCD4" stroke-width="1.5"/><text x="210" y="74" fill="#fff">PLC</text></g>
+            <g class="hn-node"><circle cx="331" cy="140" r="30" fill="rgba(11,46,89,.85)" stroke="#00BCD4" stroke-width="1.5"/><text x="331" y="144" fill="#fff">IIoT</text></g>
+            <g class="hn-node"><circle cx="331" cy="280" r="30" fill="rgba(11,46,89,.85)" stroke="#00BCD4" stroke-width="1.5"/><text x="331" y="284" fill="#fff">SCADA</text></g>
+            <g class="hn-node"><circle cx="210" cy="350" r="30" fill="rgba(11,46,89,.85)" stroke="#00BCD4" stroke-width="1.5"/><text x="210" y="354" fill="#fff">Robot</text></g>
+            <g class="hn-node"><circle cx="89"  cy="280" r="30" fill="rgba(11,46,89,.85)" stroke="#00BCD4" stroke-width="1.5"/><text x="89" y="284" fill="#fff">Vision</text></g>
+            <g class="hn-node"><circle cx="89"  cy="140" r="30" fill="rgba(11,46,89,.85)" stroke="#00BCD4" stroke-width="1.5"/><text x="89" y="144" fill="#fff">Cloud</text></g>
+          </g>
+
+          <!-- central AI core with rotating gear ring -->
+          <circle cx="210" cy="210" r="64" fill="url(#coreGlow)"/>
+          <g class="hn-gear" style="transform-origin:210px 210px" stroke="#F57C00" stroke-width="3" fill="none">
+            <circle cx="210" cy="210" r="46"/>
+            <path d="M210 158 L210 168 M210 252 L210 262 M158 210 L168 210 M252 210 L262 210 M173 173 L180 180 M240 240 L247 247 M247 173 L240 180 M180 240 L173 247"/>
+          </g>
+          <circle cx="210" cy="210" r="34" fill="rgba(245,124,0,.95)"/>
+          <text x="210" y="216" text-anchor="middle" fill="#fff" font-family="Poppins, sans-serif" font-size="18" font-weight="700">AI</text>
         </svg>
       </div>
     </div>
@@ -194,36 +249,35 @@
       <h2 class="fw-bold">Our Technology Partners</h2>
       <p class="text-muted">Collaborating with global leaders to deliver world-class automation</p>
     </div>
-    <div class="row g-3 text-center justify-content-center">
-      <div class="col-4 col-md-2">
-        <div class="card border-0 p-3 h-100 d-flex align-items-center justify-content-center">
-          <strong class="text-blue">SIEMENS</strong>
-        </div>
-      </div>
-      <div class="col-4 col-md-2">
-        <div class="card border-0 p-3 h-100 d-flex align-items-center justify-content-center">
-          <strong class="text-dark">Rockwell</strong>
-        </div>
-      </div>
-      <div class="col-4 col-md-2">
-        <div class="card border-0 p-3 h-100 d-flex align-items-center justify-content-center">
-          <strong class="text-dark">Allen-Bradley</strong>
-        </div>
-      </div>
-      <div class="col-4 col-md-2">
-        <div class="card border-0 p-3 h-100 d-flex align-items-center justify-content-center">
-          <strong class="text-dark">Schneider</strong>
-        </div>
-      </div>
-      <div class="col-4 col-md-2">
-        <div class="card border-0 p-3 h-100 d-flex align-items-center justify-content-center">
-          <strong class="text-dark">MITSUBISHI</strong>
-        </div>
-      </div>
-      <div class="col-4 col-md-2">
-        <div class="card border-0 p-3 h-100 d-flex align-items-center justify-content-center">
-          <strong class="text-dark">Honeywell</strong>
-        </div>
+    <div class="marquee" aria-label="Technology partners">
+      <div class="marquee__track">
+        <span class="marquee__item">Siemens</span>
+        <span class="marquee__item">ABB</span>
+        <span class="marquee__item">Schneider Electric</span>
+        <span class="marquee__item">Allen-Bradley</span>
+        <span class="marquee__item">Omron</span>
+        <span class="marquee__item">Mitsubishi</span>
+        <span class="marquee__item">Phoenix Contact</span>
+        <span class="marquee__item">Bosch Rexroth</span>
+        <span class="marquee__item">Beckhoff</span>
+        <span class="marquee__item">Cisco</span>
+        <span class="marquee__item">Microsoft Azure</span>
+        <span class="marquee__item">AWS</span>
+        <span class="marquee__item">Google Cloud</span>
+        <!-- duplicate set for seamless loop -->
+        <span class="marquee__item" aria-hidden="true">Siemens</span>
+        <span class="marquee__item" aria-hidden="true">ABB</span>
+        <span class="marquee__item" aria-hidden="true">Schneider Electric</span>
+        <span class="marquee__item" aria-hidden="true">Allen-Bradley</span>
+        <span class="marquee__item" aria-hidden="true">Omron</span>
+        <span class="marquee__item" aria-hidden="true">Mitsubishi</span>
+        <span class="marquee__item" aria-hidden="true">Phoenix Contact</span>
+        <span class="marquee__item" aria-hidden="true">Bosch Rexroth</span>
+        <span class="marquee__item" aria-hidden="true">Beckhoff</span>
+        <span class="marquee__item" aria-hidden="true">Cisco</span>
+        <span class="marquee__item" aria-hidden="true">Microsoft Azure</span>
+        <span class="marquee__item" aria-hidden="true">AWS</span>
+        <span class="marquee__item" aria-hidden="true">Google Cloud</span>
       </div>
     </div>
   </div>

@@ -154,6 +154,8 @@ EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="no-reply@nexforgeautomation.com")
 SALES_INBOX = env("SALES_INBOX", default="sales@nexforgeautomation.com")
 GOOGLE_MAPS_API_KEY = env("GOOGLE_MAPS_API_KEY", default="")
+# Google Analytics 4 Measurement ID (e.g. G-XXXXXXXXXX). Empty = analytics off.
+GOOGLE_ANALYTICS_ID = env("GOOGLE_ANALYTICS_ID", default="")
 
 # drf-spectacular
 SPECTACULAR_SETTINGS = {
@@ -175,14 +177,14 @@ SPECTACULAR_SETTINGS = {
 CONTENT_SECURITY_POLICY = {
     "DIRECTIVES": {
         "default-src": ["'self'"],
-        "script-src": [NONCE, "'self'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+        "script-src": [NONCE, "'self'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://www.googletagmanager.com"],
         # 'unsafe-inline' kept for style only: the templates use inline style="" attributes,
         # which a nonce cannot cover. Style attributes cannot execute scripts, so XSS risk is
         # low; script-src stays strict (nonce + allowlist, no inline).
         "style-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
         "font-src": ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
         "img-src": ["'self'", "data:", "https:"],
-        "connect-src": ["'self'"],
+        "connect-src": ["'self'", "https://www.google-analytics.com", "https://region1.google-analytics.com"],
         "frame-src": ["https://www.google.com"],
         "object-src": ["'none'"],
         "base-uri": ["'self'"],
