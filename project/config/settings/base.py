@@ -156,6 +156,10 @@ SALES_INBOX = env("SALES_INBOX", default="sales@nexforgeautomation.com")
 GOOGLE_MAPS_API_KEY = env("GOOGLE_MAPS_API_KEY", default="")
 # Google Analytics 4 Measurement ID (e.g. G-XXXXXXXXXX). Empty = analytics off.
 GOOGLE_ANALYTICS_ID = env("GOOGLE_ANALYTICS_ID", default="")
+# Hero background video. Empty = animated SVG/grid only (no video).
+# Use a static path ("video/hero.mp4") or a full https URL (add its host to CSP media-src).
+HERO_VIDEO_URL = env("HERO_VIDEO_URL", default="")
+HERO_VIDEO_POSTER = env("HERO_VIDEO_POSTER", default="")
 
 # drf-spectacular
 SPECTACULAR_SETTINGS = {
@@ -184,6 +188,9 @@ CONTENT_SECURITY_POLICY = {
         "style-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
         "font-src": ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
         "img-src": ["'self'", "data:", "https:"],
+        # Hero video: 'self' covers a local static file. To use an external video host,
+        # add it here (e.g. "https://cdn.coverr.co", "https://videos.pexels.com").
+        "media-src": ["'self'", "data:"],
         "connect-src": ["'self'", "https://www.google-analytics.com", "https://region1.google-analytics.com"],
         "frame-src": ["https://www.google.com"],
         "object-src": ["'none'"],

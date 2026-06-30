@@ -3,7 +3,14 @@
 {% block content %}
 
 <!-- Hero Banner -->
-<section class="hero-section text-white">
+<section class="hero-section text-white {% if HERO_VIDEO_URL %}has-video{% endif %}">
+  {% if HERO_VIDEO_URL %}
+  <video class="hero-video" autoplay muted loop playsinline preload="auto"
+         {% if HERO_VIDEO_POSTER %}poster="{{ HERO_VIDEO_POSTER }}"{% endif %} aria-hidden="true">
+    <source src="{{ HERO_VIDEO_URL }}" type="video/mp4">
+  </video>
+  <div class="hero-video-scrim" aria-hidden="true"></div>
+  {% endif %}
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="hero-scan" aria-hidden="true"></div>
   <div class="container position-relative" style="z-index:2">
