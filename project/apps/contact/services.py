@@ -41,8 +41,30 @@ def send_enquiry_email(enquiry):
         return False
 
 
+def send_enquiry_ack(enquiry):
+    """Auto-reply to the person who submitted the enquiry. Never raises."""
+    try:
+        send_mail(
+            subject="We received your enquiry — NexForge Automation",
+            message=(
+                f"Hi {enquiry.name},\n\n"
+                f"Thanks for reaching out to NexForge Automation. We have received "
+                f"your enquiry and our team will get back to you shortly.\n\n"
+                f"Your message:\n{enquiry.message}\n\n"
+                f"— NexForge Automation"
+            ),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[enquiry.email],
+            fail_silently=True,
+        )
+        return True
+    except Exception:
+        return False
+
+
 def process_enquiry(name, email, phone, message):
     """Create enquiry and send notification email."""
     enquiry = create_enquiry(name, email, phone, message)
     send_enquiry_email(enquiry)
+    send_enquiry_ack(enquiry)
     return enquiry

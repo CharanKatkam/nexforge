@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "apps.contact",
     "apps.content",
     "apps.accounts",
+    "apps.careers",
 ]
 
 MIDDLEWARE = [
@@ -153,6 +154,7 @@ EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="no-reply@nexforgeautomation.com")
 SALES_INBOX = env("SALES_INBOX", default="sales@nexforgeautomation.com")
+HR_INBOX = env("HR_INBOX", default="careers@nexforgeautomation.com")
 GOOGLE_MAPS_API_KEY = env("GOOGLE_MAPS_API_KEY", default="")
 # Google Analytics 4 Measurement ID (e.g. G-XXXXXXXXXX). Empty = analytics off.
 GOOGLE_ANALYTICS_ID = env("GOOGLE_ANALYTICS_ID", default="")

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ opening.title }} — Careers — NexForge Automation{% endblock %}
+{% block content %}
+<section class="bg-blue text-white py-5">
+  <div class="container">
+    <a href="{% url 'careers-list' %}" class="text-white-50 text-decoration-none small">&larr; All openings</a>
+    <h1 class="fw-bold mt-2 mb-1">{{ opening.title }}</h1>
+    <p class="text-white-50 mb-0">
+      {{ opening.department }} · {{ opening.location }} ·
+      {{ opening.get_employment_type_display }}{% if opening.experience %} · {{ opening.experience }}{% endif %}
+    </p>
+  </div>
+</section>
+
+<section class="container py-5">
+  <div class="row g-5">
+    <div class="col-lg-7">
+      <h2 class="h5 fw-bold">About the role</h2>
+      <p>{{ opening.description|linebreaks }}</p>
+      {% if opening.responsibilities %}
+      <h2 class="h5 fw-bold mt-4">Responsibilities</h2>
+      <p>{{ opening.responsibilities|linebreaks }}</p>
+      {% endif %}
+      {% if opening.requirements %}
+      <h2 class="h5 fw-bold mt-4">Requirements</h2>
+      <p>{{ opening.requirements|linebreaks }}</p>
+      {% endif %}
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card border-0 bg-gray p-4 shadow-sm" id="apply">
+        <h2 class="h5 fw-bold mb-3">Apply for this position</h2>
+        <form id="application-form" novalidate>
+          <input type="hidden" id="opening" value="{{ opening.id }}">
+          <div class="mb-3">
+            <label for="name" class="form-label small fw-semibold">Full name *</label>
+            <input type="text" id="name" class="form-control" required minlength="2">
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label small fw-semibold">Email *</label>
+            <input type="email" id="email" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label small fw-semibold">Phone</label>
+            <input type="tel" id="phone" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="resume" class="form-label small fw-semibold">Resume * <span class="text-muted">(PDF/DOC, max 10 MB)</span></label>
+            <input type="file" id="resume" class="form-control" accept=".pdf,.doc,.docx" required>
+          </div>
+          <div class="mb-3">
+            <label for="cover_letter" class="form-label small fw-semibold">Cover letter</label>
+            <textarea id="cover_letter" class="form-control" rows="4"></textarea>
+          </div>
+          <button type="submit" class="btn btn-brand w-100" id="apply-btn">
+            <span id="apply-text">Submit Application</span>
+            <span id="apply-spinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+          </button>
+          <div id="apply-alert" class="mt-3 d-none"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/careers.js' %}?v=8"></script>
+{% endblock %}

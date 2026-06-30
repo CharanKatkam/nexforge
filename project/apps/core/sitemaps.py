@@ -15,10 +15,22 @@ class StaticViewSitemap(Sitemap):
 
     def items(self):
         return ["home", "projects-portfolio", "services-list", "blog-list",
-                "contact", "about", "faq"]
+                "contact", "about", "faq", "careers-list"]
 
     def location(self, item):
         return reverse(item)
+
+
+class CareerSitemap(Sitemap):
+    changefreq = "weekly"
+    priority = 0.6
+
+    def items(self):
+        from apps.careers.models import JobOpening
+        return JobOpening.objects.filter(is_open=True)
+
+    def location(self, obj):
+        return reverse("career-detail", args=[obj.slug])
 
 
 class ProjectSitemap(Sitemap):
@@ -65,4 +77,5 @@ SITEMAPS = {
     "projects": ProjectSitemap,
     "services": ServiceSitemap,
     "blog": BlogSitemap,
+    "careers": CareerSitemap,
 }

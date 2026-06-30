@@ -11,6 +11,7 @@ from rest_framework.routers import DefaultRouter
 
 from apps.accounts.views import obtain_auth_token
 from apps.blog.views import BlogViewSet
+from apps.careers.views import JobApplicationViewSet, JobOpeningViewSet
 from apps.contact.views import EnquiryViewSet
 from apps.content.views import (
     AwardViewSet,
@@ -40,6 +41,8 @@ router.register("gallery", GalleryItemViewSet, basename="galleryitem")
 router.register("awards", AwardViewSet, basename="award")
 router.register("downloads", DownloadViewSet, basename="download")
 router.register("testimonials", TestimonialViewSet, basename="testimonial")
+router.register("jobs", JobOpeningViewSet, basename="job")
+router.register("applications", JobApplicationViewSet, basename="application")
 
 urlpatterns = [
     path("admin/", admin.site.urls),

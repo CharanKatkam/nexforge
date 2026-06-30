@@ -268,6 +268,21 @@ def contact(request):
     return render(request, "contact/contact.html")
 
 
+# --- Careers --------------------------------------------------------------
+def careers_list(request):
+    from apps.careers.models import JobOpening
+
+    openings = JobOpening.objects.filter(is_open=True)
+    return render(request, "careers/list.html", {"openings": openings})
+
+
+def career_detail(request, slug):
+    from apps.careers.models import JobOpening
+
+    opening = get_object_or_404(JobOpening, slug=slug, is_open=True)
+    return render(request, "careers/detail.html", {"opening": opening})
+
+
 def robots_txt(request):
     """Serve a minimal robots.txt pointing at the sitemap."""
     host = request.get_host()

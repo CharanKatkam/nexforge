@@ -20,4 +20,6 @@ urlpatterns = [
     path("awards/", views.awards, name="awards"),
     path("downloads/", views.downloads, name="downloads"),
     path("contact/", views.contact, name="contact"),
+    path("careers/", views.careers_list, name="careers-list"),
+    path("careers/<slug:slug>/", views.career_detail, name="career-detail"),
 ]

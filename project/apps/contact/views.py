@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 
 from .models import Enquiry
 from .serializers import EnquirySerializer
-from .services import send_enquiry_email
+from .services import send_enquiry_ack, send_enquiry_email
 
 
 class EnquiryViewSet(
@@ -44,4 +44,5 @@ class EnquiryViewSet(
 
     def perform_create(self, serializer):
         enquiry = serializer.save(status=Enquiry.Status.NEW, assigned_to=None)
-        send_enquiry_email(enquiry)
+        send_enquiry_email(enquiry)   # notify sales
+        send_enquiry_ack(enquiry)     # auto-reply to the submitter
